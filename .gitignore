@@ -1,0 +1,27 @@
+# ---> Go
+*.exe
+*.test
+*.prof
+/config/t-*
+.idea/
+/.idea/
+/_log/
+/_debug/
+/_output/
+/debug/
+
+.DS_Store
+.vscode
+apolloConfig.json
+nohup.out
+app/controller/test.go
+config/config.toml
+config/config.test.toml
+config/config.dev.toml
+arclinks-go
+mockgen
+*.out
+.scannerwork
+*.pyc
+__debug_bin
+
