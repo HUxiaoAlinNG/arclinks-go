@@ -2,7 +2,7 @@
  * @Author: hilin hilin
  * @Date: 2023-07-09 14:56:06
  * @LastEditors: hilin hilin
- * @LastEditTime: 2023-07-09 22:45:08
+ * @LastEditTime: 2023-07-15 21:37:22
  * @FilePath: /arclinks-go/app/service/onetime_password.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -15,6 +15,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math/rand"
 	"sync"
 
 	"arclinks-go/app/repository"
@@ -93,7 +94,7 @@ func (s *OnetimePassword) GenPassword(ctx context.Context, openKey string) (stri
 		return "", errors.New("Can't find openKey Record")
 	}
 
-	password := fmt.Sprintf("arclinks-%v", time.Now().UnixMicro())
+	password := genRandomPassword()
 	oneTimePassword := &model.OneTimePasswordModel{
 		Password:  password,
 		OpenKeyId: openKeyModel.Id,
@@ -107,4 +108,19 @@ func (s *OnetimePassword) GenPassword(ctx context.Context, openKey string) (stri
 	}
 
 	return password, nil
+}
+
+func genRandomPassword() string {
+	// 定义密码字符集
+	charset := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+	password := make([]byte, 6)
+	charsetLength := len(charset)
+
+	for i := 0; i < 6; i++ {
+		randomIndex := rand.Intn(charsetLength)
+		password[i] = charset[randomIndex]
+	}
+
+	return fmt.Sprintf("arclinks-%v-%s", time.Now().UnixMicro(), string(password))
 }
