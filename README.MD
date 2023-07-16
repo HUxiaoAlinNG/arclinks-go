@@ -231,3 +231,6 @@ sudo apt-get install -y libdevmapper-dev
 brew install gpgme
 ```
 如果出现libdevmapper依赖版本冲突需要手动下载安装 [devmappper](https://packages.ubuntu.com/bionic-updates/libdevmapper-dev)
+
+## Build
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o arclinks main.go
